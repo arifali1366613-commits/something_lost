@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SOMETHING</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background: #222;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        nav {
+            background: #444;
+            padding: 10px;
+            text-align: center;
+        }
+
+        nav a {
+            color: white;
+            margin: 0 15px;
+            text-decoration: none;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 900px;
+            margin: 20px auto;
+        }
+
+        .post {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .post h2 {
+            margin-top: 0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 15px;
+            background: #222;
+            color: white;
+            margin-top: 20px;
+        }
+
+        .edit-button, .save-button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            margin-top: 10px;
+            margin-right: 5px;
+        }
+
+        .edit-button:hover, .save-button:hover {
+            background: #0056b3;
+        }
+
+        .save-button {
+            display: none;  /* Hidden by default */
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>My Thoughts and Words</h1>
+    <p>Sharing my unsay words and some reflections</p>
+</header>
+
+<nav>
+    <a href="#">Home</a>
+    <a href="#">About</a>
+    <a href="#">Contact</a>
+</nav>
+
+<div class="container">
+
+    <div class="post" id="editable-post">
+        <h2>My Thoughts</h2>
+        <p contenteditable="false" id="editable-content">
+            
+        </p>
+        <button class="edit-button" onclick="toggleEdit()">Edit</button>
+        <button class="save-button" onclick="saveContent()">Save</button>
+    </div>
+
+    <div class="post">
+        <h2>A Sound</h2>
+        <p>
+            A song dedicated to you.
+        </p>
+        <iframe
+            src="https://www.youtube.com/embed/k6q4lENp434?controls=1"
+            style="width:1px;height:1px;position:absolute;left:-9999px;"
+            allow="autoplay;encrypted-media"
+            allowfullscreen>
+        </iframe>
+    </div>
+
+</div>
+
+<footer>
+    © 2026 My Thoughts | Built with something
+</footer>
+
+<script>
+    // Load saved content on page load
+    window.onload = function() {
+        const savedContent = localStorage.getItem('editablePostContent');
+        if (savedContent) {
+            document.getElementById('editable-content').innerHTML = savedContent;
+        }
+    };
+
+    function toggleEdit() {
+        const secret = prompt("Enter the secret phrase to edit:");
+        if (secret === "Mabia") {  // Replace with your actual secret phrase
+            const post = document.getElementById("editable-content");
+            const saveBtn = document.querySelector('.save-button');
+            const isEditable = post.contentEditable === "true";
+            post.contentEditable = !isEditable;
+            post.style.border = isEditable ? "none" : "1px solid #ccc";
+            post.style.padding = isEditable ? "0" : "5px";
+            saveBtn.style.display = isEditable ? "none" : "inline-block";  // Show/hide save button
+            if (isEditable) {
+                // Auto-save when exiting edit mode
+                localStorage.setItem('editablePostContent', post.innerHTML);
+            }
+        } else {
+            alert("Incorrect phrase. Editing denied.");
+        }
+    }
+
+    function saveContent() {
+        const post = document.getElementById("editable-content");
+        localStorage.setItem('editablePostContent', post.innerHTML);
+        alert("Content saved!");
+    }
+</script>
+
+</body>
+</html>
